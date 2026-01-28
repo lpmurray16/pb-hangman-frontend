@@ -12,7 +12,6 @@
         <div class="header flex flex-col md-flex-row items-center md-justify-between w-full gap-sm md-gap-0">
             <p>ID: {{ game.display_id }}</p>
             <p>STATUS: {{ isGameWon ? 'WON' : (isGameOver ? 'LOST' : 'PLAYING') }}</p>
-            <a routerLink="/home" class="retro-btn-small">MENU</a>
         </div>
 
         <!-- Hangman ASCII Art -->
@@ -34,7 +33,7 @@
 
         <!-- Keyboard -->
         <div class="keyboard flex flex-col gap-sm" *ngIf="!isGameOver && !isGameWon">
-            <div class="keyboard-row flex justify-center gap-xs" *ngFor="let row of keyboardRows">
+            <div class="keyboard-row flex justify-center gap-sm" *ngFor="let row of keyboardRows">
                 <button *ngFor="let key of row" class="key-btn" [class.used]="isLetterGuessed(key)"
                     (click)="makeGuess(key)" [disabled]="isLetterGuessed(key)">
                     {{ key }}

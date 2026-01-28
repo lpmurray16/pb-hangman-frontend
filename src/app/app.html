@@ -1,20 +1,27 @@
-<header class="retro-header flex flex-col md-flex-row items-center justify-between gap-md">
+<header class="retro-header flex items-center justify-between">
     <div class="logo">
-        <a routerLink="/home">RETRO HANGMAN</a>
+        <a routerLink="/home" (click)="closeMenu()">HANGMAN</a>
     </div>
 
-    <nav class="nav-links flex items-center gap-lg">
+    <button class="hamburger-btn" (click)="toggleMenu()" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <nav class="nav-links" [class.open]="isMenuOpen">
         <ng-container *ngIf="authService.isLoggedIn">
             <span class="user-info" *ngIf="authService.currentUser">
                 PLAYER: {{ authService.currentUser['name'] || authService.currentUser['email'] }}
             </span>
-            <a routerLink="/create-game" class="nav-btn">NEW GAME</a>
-            <a *ngIf="authService.currentUser?.id === '1rwvkt8qzn5wwfb'" routerLink="/admin" class="nav-btn">ADMIN</a>
+            <a routerLink="/create-game" class="nav-btn" (click)="closeMenu()">NEW GAME</a>
+            <a *ngIf="authService.currentUser?.id === '1rwvkt8qzn5wwfb'" routerLink="/admin" class="nav-btn"
+                (click)="closeMenu()">ADMIN</a>
             <button (click)="logout()" class="nav-btn logout">LOGOUT</button>
         </ng-container>
 
         <ng-container *ngIf="!authService.isLoggedIn">
-            <a routerLink="/" class="nav-btn">LOGIN</a>
+            <a routerLink="/" class="nav-btn" (click)="closeMenu()">LOGIN</a>
         </ng-container>
     </nav>
 </header>

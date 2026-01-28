@@ -6,6 +6,7 @@
   border-bottom: 4px solid var(--retro-orange, #ff9900);
   background-color: var(--retro-black, #000);
   font-family: var(--pixel-font, 'Courier New');
+  position: relative;
 
   .logo {
     a {
@@ -23,6 +24,31 @@
     }
   }
 
+  .hamburger-btn {
+    display: none;
+    background: none;
+    border: 2px solid var(--retro-orange);
+    cursor: pointer;
+    padding: 0.5rem;
+    flex-direction: column;
+    gap: 4px;
+
+    .bar {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: var(--retro-orange);
+    }
+
+    &:hover {
+      background-color: var(--retro-orange);
+
+      .bar {
+        background-color: var(--retro-black);
+      }
+    }
+  }
+
   .nav-links {
     display: flex;
     align-items: center;
@@ -33,10 +59,6 @@
       font-size: 0.8rem;
       margin-right: 1rem;
       text-transform: uppercase;
-
-      @media (max-width: 600px) {
-        display: none;
-      }
     }
 
     .nav-btn {
@@ -68,9 +90,46 @@
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     padding: 1rem;
-    // flex-direction/gap handled by utility classes
+
+    .hamburger-btn {
+      display: flex;
+    }
+
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background-color: var(--retro-black);
+      border-bottom: 4px solid var(--retro-orange);
+      padding: 1rem;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+
+      &.open {
+        display: flex;
+      }
+
+      .user-info {
+        margin: 0 0 1rem 0;
+        text-align: center;
+        margin-right: 0;
+      }
+
+      .nav-btn {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0.5rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
   }
 }
 

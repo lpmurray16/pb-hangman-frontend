@@ -128,16 +128,30 @@
 }
 
 @media (max-width: 600px) {
+    .game-container {
+        padding: 0.5rem;
+    }
+
     .letter-box {
         width: 1.5rem;
         height: 2rem;
         font-size: 1rem;
         border-bottom-width: 3px;
     }
-    
+
+    .keyboard {
+        width: 100%;
+    }
+
     .key-btn {
-        width: 1.8rem;
-        height: 2.5rem;
-        font-size: 0.8rem;
+        width: 7.5vw;
+        max-width: 2.2rem;
+        height: 3rem;
+        /* Taller for better touch target */
+        font-size: 0.9rem;
+        padding: 0;
+
+        /* Ensure consistent sizing */
+        flex: 0 0 auto;
     }
 }

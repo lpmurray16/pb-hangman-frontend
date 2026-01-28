@@ -1,6 +1,10 @@
 /* Global Styles - Retro Dark Theme */
 @import './flex';
 
+* {
+  box-sizing: border-box;
+}
+
 :root {
   --theme-black: #000000;
   --theme-dark-grey: #1a1a1a;
