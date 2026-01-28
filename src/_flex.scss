@@ -1,0 +1,139 @@
+// Flexbox Utilities
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+// Alignment
+.items-center {
+  align-items: center;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+// Flex Grow/Shrink
+.flex-1 {
+  flex: 1;
+}
+
+.flex-none {
+  flex: none;
+}
+
+// Gaps
+.gap-0 {
+  gap: 0;
+}
+
+.gap-xs {
+  gap: 0.25rem;
+}
+
+.gap-sm {
+  gap: 0.5rem;
+}
+
+.gap-md {
+  gap: 1rem;
+}
+
+.gap-lg {
+  gap: 1.5rem;
+}
+
+.gap-xl {
+  gap: 2rem;
+}
+
+.gap-2xl {
+  gap: 3rem;
+}
+
+// Width/Height Utils often used with flex
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+// Responsive Utilities (Mobile First approach)
+// Default is mobile (often column). 
+// md-row -> switches to row on medium screens and up.
+
+@media (min-width: 601px) {
+  .md-flex-row {
+    flex-direction: row;
+  }
+
+  .md-flex-col {
+    flex-direction: column;
+  }
+
+  .md-justify-start {
+    justify-content: flex-start;
+  }
+
+  .md-justify-center {
+    justify-content: center;
+  }
+
+  .md-justify-between {
+    justify-content: space-between;
+  }
+
+  .md-items-center {
+    align-items: center;
+  }
+
+  .md-gap-md {
+    gap: 1rem;
+  }
+}

@@ -1,0 +1,143 @@
+.game-container {
+    padding: 1rem;
+    color: var(--retro-orange);
+    overflow-y: auto;
+}
+
+.loading,
+.error {
+    text-align: center;
+    font-size: 1.5rem;
+
+    .retro-btn {
+        display: inline-block;
+        margin-top: 1rem;
+        text-decoration: none;
+    }
+}
+
+.game-board {
+    width: 100%;
+    max-width: 800px;
+    padding-bottom: 2rem;
+}
+
+.header {
+    width: 100%;
+    font-size: 0.8rem;
+    border-bottom: 2px solid var(--retro-orange);
+    padding-bottom: 0.5rem;
+}
+
+.hangman-drawing {
+    font-size: 1rem;
+    text-align: center;
+
+    pre {
+        font-family: monospace;
+        /* Ensure ASCII art aligns */
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+
+    .mistakes {
+        font-size: 0.8rem;
+    }
+}
+
+.word-container {
+    margin: 1rem 0;
+}
+
+.letter-box {
+    width: 2.5rem;
+    height: 3rem;
+    border-bottom: 4px solid var(--retro-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+
+    &.revealed {
+        border-bottom: none;
+    }
+}
+
+/* Keyboard */
+.keyboard {
+    // Flex classes used
+    width: 100%;
+    max-width: 600px;
+}
+
+.key-btn {
+    width: 2.5rem;
+    height: 3rem;
+    background-color: var(--theme-dark-grey);
+    color: var(--retro-orange);
+    border: 2px solid var(--retro-orange);
+    font-family: var(--pixel-font);
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.1s;
+
+    &:hover {
+        background-color: var(--retro-orange);
+        color: var(--retro-black);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    &:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+        background-color: #000;
+        border-color: #555;
+    }
+
+    &.used {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+}
+
+.end-game-message {
+    text-align: center;
+    margin-top: 2rem;
+
+    .win-text {
+        font-size: 2rem;
+        color: #00ff00;
+        text-shadow: 2px 2px 0 #004400;
+    }
+
+    .lose-text {
+        font-size: 2rem;
+        color: #ff0000;
+        text-shadow: 2px 2px 0 #440000;
+    }
+
+    .reveal-word {
+        font-size: 1.2rem;
+        margin: 1rem 0 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .letter-box {
+        width: 1.5rem;
+        height: 2rem;
+        font-size: 1rem;
+        border-bottom-width: 3px;
+    }
+    
+    .key-btn {
+        width: 1.8rem;
+        height: 2.5rem;
+        font-size: 0.8rem;
+    }
+}

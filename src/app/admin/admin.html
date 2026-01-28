@@ -1,0 +1,26 @@
+<div class="admin-container p-lg">
+  <h1 class="text-xl mb-lg">Admin Dashboard</h1>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading games...</div>
+
+  <div *ngIf="!loading" class="games-list flex flex-col">
+    <div *ngFor="let game of games" class="game-item">
+      <div class="game-info">
+        <div class="font-bold">WORD: {{ game.word }}</div>
+        <div class="text-sm text-gray">ID: {{ game.display_id }} | STATUS: {{ game.status }}</div>
+        <div class="text-sm text-gray">CREATED: {{ game.created | date:'medium' }}</div>
+      </div>
+      <button (click)="deleteGame(game.id)" class="btn-delete">
+        DELETE
+      </button>
+    </div>
+
+    <div *ngIf="games.length === 0" class="text-center p-lg">
+      No games found.
+    </div>
+  </div>
+</div>

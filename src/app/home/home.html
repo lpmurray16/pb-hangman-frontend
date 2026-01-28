@@ -1,0 +1,15 @@
+<div class="home-container flex flex-col items-center justify-start md-justify-center h-screen gap-2xl">
+    <h1 class="glitch-text" data-text="HANGMAN">HANGMAN</h1>
+    <p class="user-info">Logged in as: <span>{{ user?.email }}</span></p>
+
+    <div class="action-buttons flex flex-col items-center gap-lg w-full">
+        <button class="retro-btn" (click)="createGame()">CREATE GAME</button>
+
+        <div class="join-section flex flex-col md-flex-row gap-sm w-full">
+            <input type="text" [(ngModel)]="joinCode" placeholder="ENTER CODE" maxlength="6" class="retro-input">
+            <button class="retro-btn secondary" (click)="joinGame()">JOIN GAME</button>
+        </div>
+
+        <button class="retro-btn danger" (click)="logout()">LOGOUT</button>
+    </div>
+</div>

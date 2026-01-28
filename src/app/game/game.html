@@ -1,0 +1,53 @@
+<div class="game-container flex flex-col items-center justify-center min-h-screen">
+    <div *ngIf="loading" class="loading">
+        <p>LOADING CARTRIDGE...</p>
+    </div>
+
+    <div *ngIf="error" class="error">
+        <p>ERROR: {{ error }}</p>
+        <a routerLink="/home" class="retro-btn">RETURN TO MENU</a>
+    </div>
+
+    <div *ngIf="!loading && !error && game" class="game-board flex flex-col items-center gap-lg w-full">
+        <div class="header flex flex-col md-flex-row items-center md-justify-between w-full gap-sm md-gap-0">
+            <p>ID: {{ game.display_id }}</p>
+            <p>STATUS: {{ isGameWon ? 'WON' : (isGameOver ? 'LOST' : 'PLAYING') }}</p>
+            <a routerLink="/home" class="retro-btn-small">MENU</a>
+        </div>
+
+        <!-- Hangman ASCII Art -->
+        <div class="hangman-drawing">
+            <pre>{{ hangmanArt }}</pre>
+            <p class="mistakes">MISTAKES: {{ currentWrongGuesses }} / {{ maxWrongGuesses }}</p>
+        </div>
+
+        <!-- Render the word(s) -->
+        <div class="word-container flex flex-wrap justify-center gap-lg">
+            <div *ngFor="let word of displayWords" class="word-group flex gap-xs">
+                <div *ngFor="let letter of word" class="letter-box flex items-center justify-center"
+                    [class.revealed]="isLetterGuessed(letter) || isGameOver">
+                    <span *ngIf="isLetterGuessed(letter) || isGameOver">{{ letter }}</span>
+                    <span *ngIf="!isLetterGuessed(letter) && !isGameOver">&nbsp;</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Keyboard -->
+        <div class="keyboard flex flex-col gap-sm" *ngIf="!isGameOver && !isGameWon">
+            <div class="keyboard-row flex justify-center gap-xs" *ngFor="let row of keyboardRows">
+                <button *ngFor="let key of row" class="key-btn" [class.used]="isLetterGuessed(key)"
+                    (click)="makeGuess(key)" [disabled]="isLetterGuessed(key)">
+                    {{ key }}
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Over / Win Message -->
+        <div class="end-game-message" *ngIf="isGameOver || isGameWon">
+            <p *ngIf="isGameWon" class="win-text">YOU WON!</p>
+            <p *ngIf="isGameOver && !isGameWon" class="lose-text">GAME OVER</p>
+            <p *ngIf="isGameOver && !isGameWon" class="reveal-word">THE WORD WAS: {{ game.word }}</p>
+            <a routerLink="/create-game" class="retro-btn">NEW GAME</a>
+        </div>
+    </div>
+</div>

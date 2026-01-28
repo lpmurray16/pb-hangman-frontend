@@ -1,0 +1,40 @@
+.home-container {
+    padding: 1rem;
+}
+
+h1 {
+    font-size: 4rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    text-shadow: 6px 6px 0px #444;
+    color: var(--retro-orange);
+    letter-spacing: 0.5rem;
+}
+
+.user-info {
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+    opacity: 0.7;
+
+    span {
+        color: #fff;
+    }
+}
+
+.action-buttons {
+    width: 100%;
+    max-width: 400px;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.5rem;
+        letter-spacing: 0.2rem;
+    }
+
+    .home-container {
+        padding: 1rem;
+        justify-content: flex-start;
+        padding-top: 4rem;
+    }
+}

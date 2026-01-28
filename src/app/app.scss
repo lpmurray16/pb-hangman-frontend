@@ -1,0 +1,81 @@
+.retro-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 4px solid var(--retro-orange, #ff9900);
+  background-color: var(--retro-black, #000);
+  font-family: var(--pixel-font, 'Courier New');
+
+  .logo {
+    a {
+      font-size: 1.5rem;
+      color: var(--retro-orange, #ff9900);
+      text-decoration: none;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0px #333;
+
+      &:hover {
+        color: #fff;
+        text-shadow: 2px 2px 0px var(--retro-orange, #ff9900);
+      }
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    .user-info {
+      color: var(--retro-orange, #ff9900);
+      font-size: 0.8rem;
+      margin-right: 1rem;
+      text-transform: uppercase;
+
+      @media (max-width: 600px) {
+        display: none;
+      }
+    }
+
+    .nav-btn {
+      background: none;
+      border: 2px solid var(--retro-orange, #ff9900);
+      color: var(--retro-orange, #ff9900);
+      padding: 0.5rem 1rem;
+      font-family: inherit;
+      text-decoration: none;
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+
+      &:hover {
+        background-color: var(--retro-orange, #ff9900);
+        color: var(--retro-black, #000);
+      }
+
+      &.logout {
+        border-color: #ff4444;
+        color: #ff4444;
+
+        &:hover {
+          background-color: #ff4444;
+          color: white;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    padding: 1rem;
+    // flex-direction/gap handled by utility classes
+  }
+}
+
+.main-content {
+  /* Ensure content doesn't get hidden behind fixed headers if we ever make it fixed */
+  /* For now just a wrapper */
+  width: 100%;
+}
