@@ -24,6 +24,7 @@ export class Game implements OnInit, OnDestroy {
   game: any = null;
   loading: boolean = true;
   error: string = '';
+  realtimeStatus: 'connecting' | 'connected' | 'disconnected' | 'error' = 'connecting';
 
   // Derived state for display
   displayWords: string[][] = []; // Array of words, where each word is an array of letters
@@ -115,23 +116,57 @@ GAME OVER`,
       try {
         console.log('Loading game with ID:', displayId);
         await this.loadGame(displayId);
-
-        // Subscribe to real-time changes
-        if (this.game) {
-          console.log('Subscribing to realtime updates for:', this.game.id);
-          this.gameService.subscribeToGame(this.game.id, (e) => {
-            this.zone.run(() => {
-              console.log('Realtime update received:', e);
-              this.handleRealtimeUpdate(e);
-            });
-          });
-        }
+        this.initRealtimeSubscription();
       } catch (err) {
         console.error('Error in ngOnInit:', err);
         this.error = 'Game not found';
         this.loading = false;
       }
     });
+  }
+
+  async initRealtimeSubscription() {
+    if (!this.game?.id) return;
+
+    console.log('Initializing realtime subscription for:', this.game.id);
+    this.realtimeStatus = 'connecting';
+
+    // 10 second timeout for connection
+    const timer = setTimeout(() => {
+      if (this.realtimeStatus === 'connecting') {
+        console.warn('Realtime connection timed out');
+        this.zone.run(() => {
+          this.realtimeStatus = 'error';
+          this.cdr.detectChanges();
+        });
+      }
+    }, 10000);
+
+    this.gameService
+      .subscribeToGame(this.game.id, (e) => {
+        console.log('Raw realtime event received:', e);
+        this.zone.run(() => {
+          console.log('Processing event in NgZone');
+          this.handleRealtimeUpdate(e);
+          this.cdr.detectChanges();
+        });
+      })
+      .then(() => {
+        clearTimeout(timer);
+        console.log('Realtime subscription established successfully');
+        this.zone.run(() => {
+          this.realtimeStatus = 'connected';
+          this.cdr.detectChanges();
+        });
+      })
+      .catch((err) => {
+        clearTimeout(timer);
+        console.error('Failed to subscribe to realtime updates:', err);
+        this.zone.run(() => {
+          this.realtimeStatus = 'error';
+          this.cdr.detectChanges();
+        });
+      });
   }
 
   ngOnDestroy() {

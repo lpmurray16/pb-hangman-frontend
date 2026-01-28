@@ -10,7 +10,19 @@
 
     <div *ngIf="!loading && !error && game" class="game-board flex flex-col items-center gap-lg w-full">
         <div class="header flex flex-col md-flex-row items-center md-justify-between w-full gap-sm md-gap-0">
-            <p>ID: {{ game.display_id }}</p>
+            <div class="flex flex-col items-center md-items-start">
+                <p>ID: {{ game.display_id }}</p>
+                <div class="flex items-center gap-xs text-xs">
+                    <span class="w-2 h-2 rounded-full"
+                        [ngClass]="{
+                            'bg-green-500': realtimeStatus === 'connected',
+                            'bg-yellow-500': realtimeStatus === 'connecting',
+                            'bg-red-500': realtimeStatus === 'error' || realtimeStatus === 'disconnected'
+                        }">
+                    </span>
+                    <span>{{ realtimeStatus | uppercase }}</span>
+                </div>
+            </div>
             <p>STATUS: {{ isGameWon ? 'WON' : (isGameOver ? 'LOST' : 'PLAYING') }}</p>
         </div>
 
