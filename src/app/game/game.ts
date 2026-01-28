@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { GameService } from '../services/game';
@@ -18,6 +18,7 @@ export class Game implements OnInit, OnDestroy {
   private gameService = inject(GameService);
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
+  private zone = inject(NgZone);
   private sub?: Subscription;
 
   game: any = null;
@@ -119,8 +120,10 @@ GAME OVER`,
         if (this.game) {
           console.log('Subscribing to realtime updates for:', this.game.id);
           this.gameService.subscribeToGame(this.game.id, (e) => {
-            console.log('Realtime update received:', e);
-            this.handleRealtimeUpdate(e);
+            this.zone.run(() => {
+              console.log('Realtime update received:', e);
+              this.handleRealtimeUpdate(e);
+            });
           });
         }
       } catch (err) {
@@ -173,7 +176,9 @@ GAME OVER`,
     try {
       // Handle both JSON string or array if PB returns array directly
       guesses =
-        typeof this.game.guesses === 'string' ? JSON.parse(this.game.guesses) : this.game.guesses;
+        typeof this.game.guesses === 'string'
+          ? JSON.parse(this.game.guesses)
+          : this.game.guesses || [];
     } catch (e) {
       guesses = [];
     }
