@@ -1,0 +1,47 @@
+
+// Text Color Utilities
+
+$colors: (
+  'white': #ffffff,
+  'black': #000000,
+  'orange': #ff9900,
+  'orange-dim': #cc7a00,
+  'yellow': #ffff00,
+  'blue': #3399ff,
+  'green': #33ff33,
+  'red': #ff3333,
+  'gray': #888888,
+  'gray-dark': #444444
+);
+
+@each $name, $value in $colors {
+  .text-#{$name} {
+    color: $value !important;
+  }
+}
+
+// Additional text utilities
+.text-uppercase { text-transform: uppercase; }
+.text-capitalize { text-transform: capitalize; }
+.font-bold { font-weight: bold; }
+.font-mono { font-family: monospace; }
+
+.text-center {
+  text-align: center;
+}
+
+.text-sm {
+  font-size: 0.8rem;
+}
+
+.text-xs {
+  font-size: 0.6rem;
+}
+
+.text-md {
+  font-size: 1rem;
+}
+
+.text-lg {
+  font-size: 1.2rem;
+}

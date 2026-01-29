@@ -13,8 +13,7 @@
             <div class="flex flex-col items-center md-items-start">
                 <p>ID: {{ game.display_id }}</p>
                 <div class="flex items-center gap-xs text-xs">
-                    <span class="w-2 h-2 rounded-full"
-                        [ngClass]="{
+                    <span class="w-2 h-2 rounded-full" [ngClass]="{
                             'bg-green-500': realtimeStatus === 'connected',
                             'bg-yellow-500': realtimeStatus === 'connecting',
                             'bg-red-500': realtimeStatus === 'error' || realtimeStatus === 'disconnected'
@@ -45,13 +44,32 @@
 
         <!-- Hint Section -->
         <div class="hint-section flex flex-col items-center gap-sm w-full">
-            <div *ngIf="game.hint" class="hint-display p-4 border border-dashed border-gray-500 rounded w-full max-w-md text-center">
-                <p class="text-yellow-400">HINT: {{ game.hint }}</p>
+            <!-- Hint Display Mode -->
+            <div *ngIf="!isEditingHint" class="flex flex-col items-center gap-sm w-full max-w-md">
+                <div *ngIf="game.hint"
+                    class="hint-display p-2 border border-dashed border-gray-500 rounded w-full text-center flex items-center justify-center gap-sm relative group">
+                    <p class="text-yellow-400">HINT: {{ game.hint }}</p>
+                    <i *ngIf="isCreator" (click)="toggleEditHint()" class="fa-solid fa-pencil ml-1 clickable"></i>
+                </div>
+
+                <button *ngIf="isCreator && !game.hint" (click)="toggleEditHint()"
+                    class="retro-btn text-xs py-2 px-4 flex items-center gap-2">
+                    <span>ADD HINT</span>
+                    <i class="fa-solid fa-pencil"></i>
+                </button>
             </div>
-            
-            <div *ngIf="isCreator" class="hint-controls flex gap-sm items-center">
-                <input #hintInput type="text" [value]="game.hint || ''" placeholder="Enter hint..." class="p-2 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:border-green-500">
-                <button (click)="saveHint(hintInput.value)" class="retro-btn text-xs py-2 px-4">SAVE HINT</button>
+
+            <!-- Hint Edit Mode -->
+            <div *ngIf="isCreator && isEditingHint"
+                class="hint-controls flex flex-col gap-sm items-center w-full max-w-md">
+                <div class="flex w-full gap-sm">
+                    <input #hintInput type="text" [value]="game.hint || ''" placeholder="Enter hint..."
+                        class="flex-1 p-2 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:border-green-500">
+                </div>
+                <div class="flex gap-sm">
+                    <button (click)="saveHint(hintInput.value)" class="retro-btn text-xs py-2 px-4">SAVE</button>
+                    <button (click)="toggleEditHint()" class="retro-btn reverse text-xs py-2 px-4">CANCEL</button>
+                </div>
             </div>
         </div>
 

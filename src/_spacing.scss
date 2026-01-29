@@ -1,0 +1,51 @@
+
+// Spacing Utilities
+// Generates classes like .m-1, .px-2, .my-3, etc.
+
+$spacing-base: 0.25rem;
+$spacers: (
+  0: 0,
+  1: $spacing-base, // 0.25rem
+  2: $spacing-base * 2, // 0.5rem
+  3: $spacing-base * 4, // 1rem
+  4: $spacing-base * 6, // 1.5rem
+  5: $spacing-base * 12, // 3rem
+  auto: auto
+);
+
+// Margin
+@each $name, $size in $spacers {
+  .m-#{$name} { margin: $size !important; }
+  .mt-#{$name} { margin-top: $size !important; }
+  .mr-#{$name} { margin-right: $size !important; }
+  .mb-#{$name} { margin-bottom: $size !important; }
+  .ml-#{$name} { margin-left: $size !important; }
+  .mx-#{$name} {
+    margin-left: $size !important;
+    margin-right: $size !important;
+  }
+  .my-#{$name} {
+    margin-top: $size !important;
+    margin-bottom: $size !important;
+  }
+}
+
+// Padding
+@each $name, $size in $spacers {
+  // Padding doesn't support 'auto'
+  @if $name != auto {
+    .p-#{$name} { padding: $size !important; }
+    .pt-#{$name} { padding-top: $size !important; }
+    .pr-#{$name} { padding-right: $size !important; }
+    .pb-#{$name} { padding-bottom: $size !important; }
+    .pl-#{$name} { padding-left: $size !important; }
+    .px-#{$name} {
+      padding-left: $size !important;
+      padding-right: $size !important;
+    }
+    .py-#{$name} {
+      padding-top: $size !important;
+      padding-bottom: $size !important;
+    }
+  }
+}

@@ -25,6 +25,7 @@ export class Game implements OnInit, OnDestroy {
   loading: boolean = true;
   error: string = '';
   realtimeStatus: 'connecting' | 'connected' | 'disconnected' | 'error' = 'connecting';
+  isEditingHint: boolean = false;
 
   // Derived state for display
   displayWords: string[][] = []; // Array of words, where each word is an array of letters
@@ -277,9 +278,14 @@ GAME OVER`,
       await this.gameService.updateGame(this.game.id, { hint: hintText });
       // Optimistic update
       this.game.hint = hintText;
+      this.isEditingHint = false;
     } catch (err) {
       console.error('Error saving hint:', err);
     }
+  }
+
+  toggleEditHint() {
+    this.isEditingHint = !this.isEditingHint;
   }
 
   get isGameWon() {

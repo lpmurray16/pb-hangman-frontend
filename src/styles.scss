@@ -1,5 +1,7 @@
 /* Global Styles - Retro Dark Theme */
 @import './flex';
+@import './spacing';
+@import './text';
 @import './_customshared.scss';
 
 * {
@@ -159,12 +161,4 @@ input:focus {
 ::-webkit-scrollbar-thumb {
   background: var(--theme-orange);
   border: 2px solid var(--theme-black);
-}
-
-.text-center {
-  text-align: center;
-}
-
-.text-sm {
-  font-size: 0.8rem;
 }
