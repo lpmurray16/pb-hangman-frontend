@@ -1,6 +1,7 @@
 <div class="home-container flex flex-col items-center justify-start md-justify-center h-screen gap-2xl">
     <h1 class="glitch-text" data-text="HANGMAN">HANGMAN</h1>
-    <p class="user-info">Logged in as: <span>{{ user?.email }}</span></p>
+    <p class="user-info" *ngIf="user">Logged in as: <span>{{ user.email }}</span></p>
+    <p class="user-info" *ngIf="!user">GUEST MODE</p>
 
     <div class="action-buttons flex flex-col items-center gap-lg w-full">
         <button class="retro-btn" (click)="createGame()">CREATE GAME</button>
@@ -10,6 +11,29 @@
             <button class="retro-btn secondary" (click)="joinGame()">JOIN GAME</button>
         </div>
 
-        <button class="retro-btn danger" (click)="logout()">LOGOUT</button>
+        <!-- Active Games Section -->
+        <div class="active-games-section w-full max-w-md" *ngIf="activeGames">
+            <button class="retro-btn reverse w-full flex justify-between items-center text-sm" (click)="toggleActiveGames()">
+                <span>LIVE GAMES ({{ activeGames.length }})</span>
+                <span>{{ showActiveGames ? '[-]' : '[+]' }}</span>
+            </button>
+
+            <div *ngIf="showActiveGames"
+                class="games-list flex flex-col gap-md mt-sm p-sm border border-dashed border-gray-500 max-h-60 overflow-y-auto bg-black bg-opacity-50">
+                <div *ngIf="activeGames.length === 0" class="text-center text-gray-500 py-2">
+                    NO ACTIVE GAMES
+                </div>
+                <div *ngFor="let game of activeGames"
+                    class="game-item flex justify-between items-center p-xs bg-gray-900 border-gray-700 hover:border-gray-500 transition-colors">
+                    <div class="flex flex-col">
+                        <span class="text-green-400 font-mono text-lg">{{ game.display_id }}</span>
+                        <span class="text-xs text-gray-400">MISTAKES: {{ game.wrong_guesses || 0 }}</span>
+                    </div>
+                    <button class="retro-btn text-xs py-1 px-3" (click)="joinGame(game.display_id)">JOIN</button>
+                </div>
+            </div>
+        </div>
+
+        <button class="retro-btn" *ngIf="!user" (click)="router.navigate(['/login'])">LOGIN</button>
     </div>
 </div>

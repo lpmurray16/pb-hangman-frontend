@@ -1,0 +1,13 @@
+<div class="retro-checkbox-container" 
+     [class.disabled]="disabled" 
+     (click)="toggle()" 
+     (keydown.enter)="toggle()" 
+     (keydown.space)="toggle()"
+     tabindex="0">
+    
+    <div class="checkbox-box" [class.checked]="checked">
+        <div class="checkmark" *ngIf="checked"></div>
+    </div>
+    
+    <span class="label-text" *ngIf="label">{{ label }}</span>
+</div>

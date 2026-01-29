@@ -2,10 +2,14 @@
   <h2>CREATE GAME</h2>
 
   <div class="form-group flex flex-col items-center gap-sm w-full">
-    <label for="word-input">ENTER SECRET WORD:</label>
-    <input id="word-input" type="text" [(ngModel)]="word" placeholder="Enter word or words" maxlength="20"
+    <label for="word-input">ENTER WORD(S):</label>
+    <input id="word-input" type="text" [(ngModel)]="word" placeholder="Enter word or words" maxlength="30"
       (keyup.enter)="onCreate()" class="retro-input w-full">
-    <p class="hint">Your friend will have to guess this word!</p>
+    <p class="hint">No special characters.</p>
+
+    <div class="flex items-center gap-sm mt-sm">
+      <app-retro-checkbox [(ngModel)]="isPrivate" label="MAKE PRIVATE"></app-retro-checkbox>
+    </div>
   </div>
 
   <div *ngIf="error" class="error-message">
@@ -13,6 +17,6 @@
   </div>
 
   <button class="retro-btn" (click)="onCreate()" [disabled]="isLoading">
-    {{ isLoading ? 'CREATING...' : 'START GAME' }}
+    {{ isLoading ? 'CREATING...' : 'CREATE' }}
   </button>
 </div>

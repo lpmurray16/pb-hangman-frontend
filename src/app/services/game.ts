@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 export class GameService {
   constructor(private authService: AuthService) {}
 
-  async createGame(word: string) {
+  async createGame(word: string, isPrivate: boolean = false) {
     const displayId = this.generateDisplayId();
     // Normalize word: trim whitespace and replace multiple spaces with single space
     const normalizedWord = word.trim().replace(/\s+/g, ' ').toUpperCase();
@@ -19,6 +19,7 @@ export class GameService {
       created_by: this.authService.currentUser?.id,
       guesses: JSON.stringify([]), // Store as JSON string if simple array doesn't work, but array should work in PB. Let's assume array.
       wrong_guesses: 0,
+      private: isPrivate,
     };
 
     // Note: 'guesses' field in PB can be a JSON type.
@@ -38,6 +39,13 @@ export class GameService {
 
   async getAllGames() {
     return await this.authService.client.collection('games').getFullList({
+      sort: '-created',
+    });
+  }
+
+  async getActiveGames() {
+    return await this.authService.client.collection('games').getList(1, 20, {
+      filter: 'status != "won" && status != "lost" && private = false',
       sort: '-created',
     });
   }

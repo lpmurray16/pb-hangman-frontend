@@ -47,6 +47,7 @@ export class AdminComponent implements OnInit {
     try {
       await this.gameService.deleteGame(gameId);
       this.games = this.games.filter((g) => g.id !== gameId);
+      this.cdr.detectChanges(); // Manually trigger change detection to update UI
     } catch (error) {
       console.error('Error deleting game:', error);
       alert('Failed to delete game');

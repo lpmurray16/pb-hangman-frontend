@@ -3,16 +3,18 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GameService } from '../services/game';
+import { RetroCheckboxComponent } from '../components/retro-checkbox/retro-checkbox';
 
 @Component({
   selector: 'app-create-game',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RetroCheckboxComponent],
   templateUrl: './create-game.html',
   styleUrl: './create-game.scss',
 })
 export class CreateGame {
   word: string = '';
+  isPrivate: boolean = false;
   isLoading: boolean = false;
   error: string = '';
 
@@ -37,7 +39,7 @@ export class CreateGame {
     this.error = '';
 
     try {
-      const game = await this.gameService.createGame(this.word);
+      const game = await this.gameService.createGame(this.word, this.isPrivate);
       this.router.navigate(['/game', game['display_id']]);
     } catch (err: any) {
       console.error(err);

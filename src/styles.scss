@@ -1,5 +1,6 @@
 /* Global Styles - Retro Dark Theme */
 @import './flex';
+@import './_customshared.scss';
 
 * {
   box-sizing: border-box;
@@ -101,6 +102,12 @@ input:focus {
   text-decoration: none;
   display: inline-block;
 
+  &.reverse {
+    background-color: var(--retro-black);
+    color: var(--retro-orange);
+    border-color: var(--theme-white);
+  }
+
   &:hover {
     background-color: var(--theme-white);
     color: var(--theme-orange);
@@ -152,4 +159,12 @@ input:focus {
 ::-webkit-scrollbar-thumb {
   background: var(--theme-orange);
   border: 2px solid var(--theme-black);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-sm {
+  font-size: 0.8rem;
 }

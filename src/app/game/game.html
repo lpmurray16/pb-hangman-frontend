@@ -43,6 +43,18 @@
             </div>
         </div>
 
+        <!-- Hint Section -->
+        <div class="hint-section flex flex-col items-center gap-sm w-full">
+            <div *ngIf="game.hint" class="hint-display p-4 border border-dashed border-gray-500 rounded w-full max-w-md text-center">
+                <p class="text-yellow-400">HINT: {{ game.hint }}</p>
+            </div>
+            
+            <div *ngIf="isCreator" class="hint-controls flex gap-sm items-center">
+                <input #hintInput type="text" [value]="game.hint || ''" placeholder="Enter hint..." class="p-2 bg-gray-800 border border-gray-600 rounded text-white focus:outline-none focus:border-green-500">
+                <button (click)="saveHint(hintInput.value)" class="retro-btn text-xs py-2 px-4">SAVE HINT</button>
+            </div>
+        </div>
+
         <!-- Keyboard -->
         <div class="keyboard flex flex-col gap-sm" *ngIf="!isGameOver && !isGameWon">
             <div class="keyboard-row flex justify-center gap-sm" *ngFor="let row of keyboardRows">

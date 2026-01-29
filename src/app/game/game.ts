@@ -267,6 +267,21 @@ GAME OVER`,
     return this.currentWrongGuesses >= this.maxWrongGuesses;
   }
 
+  get isCreator(): boolean {
+    return this.authService.currentUser?.id === this.game?.created_by;
+  }
+
+  async saveHint(hintText: string) {
+    if (!this.game) return;
+    try {
+      await this.gameService.updateGame(this.game.id, { hint: hintText });
+      // Optimistic update
+      this.game.hint = hintText;
+    } catch (err) {
+      console.error('Error saving hint:', err);
+    }
+  }
+
   get isGameWon() {
     if (!this.game) return false;
     const fullWord = this.game.word as string;
