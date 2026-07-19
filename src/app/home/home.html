@@ -1,53 +1,101 @@
-<div class="home-container flex flex-col items-center justify-start md-justify-center h-screen gap-2xl">
-    <h1 class="glitch-text" data-text="HANGMAN">HANGMAN</h1>
-    <p class="user-info" *ngIf="user">Logged in as: <span>{{ user.email }}</span></p>
-    <p class="user-info" *ngIf="!user">GUEST MODE</p>
+<div class="home-container">
+  <section class="hero" aria-labelledby="page-title">
+    <p class="eyebrow">PUBLIC WORD TERMINAL</p>
+    <h1 id="page-title">HANGMAN</h1>
+    <p class="user-info" *ngIf="user">SIGNED IN // {{ user.email }}</p>
+    <p class="user-info" *ngIf="!user">GUEST MODE // NO ACCOUNT NEEDED TO PLAY</p>
+  </section>
 
-    <div class="action-buttons flex flex-col items-center gap-lg w-full">
-        <button class="retro-btn" (click)="createGame()">CREATE GAME</button>
+  <main class="home-console">
+    <section class="join-panel" aria-labelledby="join-title">
+      <div class="section-heading">
+        <span class="terminal-prompt">&gt;</span>
+        <h2 id="join-title">JOIN BY CODE</h2>
+      </div>
+      <form class="join-section" (ngSubmit)="joinGame()">
+        <label class="sr-only" for="game-code">Six-character game code</label>
+        <input
+          id="game-code"
+          name="gameCode"
+          type="text"
+          [(ngModel)]="joinCode"
+          placeholder="ABC123"
+          maxlength="6"
+          autocomplete="off"
+          spellcheck="false"
+          class="retro-input"
+        />
+        <button class="retro-btn secondary" type="submit">JOIN GAME</button>
+      </form>
+      <p class="field-hint">ENTER A 6-CHARACTER GAME CODE</p>
+    </section>
 
-        <div class="join-section flex flex-col md-flex-row gap-sm w-full">
-            <input type="text" [(ngModel)]="joinCode" placeholder="ENTER CODE" maxlength="6" class="retro-input">
-            <button class="retro-btn secondary" (click)="joinGame()">JOIN GAME</button>
+    <section class="games-panel" aria-labelledby="games-title" aria-live="polite">
+      <div class="games-header">
+        <div class="section-heading">
+          <span class="live-indicator" aria-hidden="true"></span>
+          <h2 id="games-title">LIVE GAMES</h2>
         </div>
+        <span class="game-count">{{ activeGameCount }} ONLINE</span>
+      </div>
 
-        <!-- Active Games Section -->
-        <div class="active-games-section w-full max-w-md" *ngIf="activeGames">
-            <button class="retro-btn reverse w-full flex justify-between items-center text-sm"
-                (click)="toggleActiveGames()">
-                <span>LIVE GAMES ({{ activeGames.length }})</span>
-                <span>{{ showActiveGames ? '[-]' : '[+]' }}</span>
-            </button>
-
-            <div *ngIf="showActiveGames"
-                class="games-list flex flex-col gap-md mt-sm p-sm border border-dashed border-gray-500 max-h-60 overflow-y-auto bg-black bg-opacity-50">
-                <div *ngIf="activeGames.length === 0" class="text-center text-gray-500 py-2">
-                    NO ACTIVE GAMES
-                </div>
-                <div *ngFor="let game of activeGames"
-                    class="game-item flex justify-between items-center p-xs bg-gray-900 border-gray-700 hover:border-gray-500 transition-colors">
-                    <div class="flex flex-col gap-sm">
-                        <div class="flex items-center gap-md">
-                            <span class="text-green-400 font-mono text-lg">{{ game.display_id }}</span>
-                            <span class="text-sm px-1" [ngClass]="{
-                                    'text-yellow': game.status === 'waiting',
-                                    'text-blue': game.status === 'playing'
-                                }">
-                                {{ game.status | uppercase }}
-                            </span>
-                        </div>
-                        <div class="flex gap-md text-sm text-gray-400 font-mono">
-                            <span>[ WRONG: {{ game.wrong_guesses || 0 }} ]</span>
-                            <span>[ LEN: {{ game.word?.length || 0 }} ]</span>
-                        </div>
-                    </div>
-                    <button class="retro-btn text-xs py-1 px-3" (click)="joinGame(game.display_id)">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </button>
-                </div>
-            </div>
+      <div class="games-table" *ngIf="activeGames.length > 0">
+        <div class="table-heading" aria-hidden="true">
+          <span>CODE</span>
+          <span>STATUS</span>
+          <span>PROGRESS</span>
+          <span>ACTION</span>
         </div>
+        <article class="game-row" *ngFor="let game of activeGames">
+          <span class="game-code">{{ game.display_id }}</span>
+          <span class="status" [class.status-playing]="game.status === 'playing'">
+            {{ game.status | uppercase }}
+          </span>
+          <span class="progress">{{ game.wrong_guesses || 0 }} / 6 MISSES</span>
+          <button
+            class="join-game-btn"
+            type="button"
+            (click)="joinGame(game.display_id)"
+            [attr.aria-label]="'Join game ' + game.display_id"
+          >
+            PLAY <span aria-hidden="true">&gt;</span>
+          </button>
+        </article>
+      </div>
 
-        <button class="retro-btn" *ngIf="!user" (click)="router.navigate(['/login'])">LOGIN</button>
-    </div>
+      <div class="feed-message" *ngIf="isLoadingGames && activeGames.length === 0">
+        <span class="cursor" aria-hidden="true"></span> SCANNING FOR GAMES...
+      </div>
+      <div class="feed-message" *ngIf="!isLoadingGames && !gamesError && activeGames.length === 0">
+        NO ACTIVE GAMES // CHECK BACK SOON
+      </div>
+      <div class="feed-message feed-error" *ngIf="gamesError">
+        {{ gamesError }}
+        <button type="button" class="text-btn" (click)="loadActiveGames()">RETRY</button>
+      </div>
+
+      <button
+        *ngIf="hasMoreGames"
+        class="load-more-btn"
+        type="button"
+        (click)="loadActiveGames(true)"
+        [disabled]="isLoadingGames"
+      >
+        {{ isLoadingGames ? 'LOADING...' : '[ LOAD 5 MORE ]' }}
+      </button>
+    </section>
+
+    <section class="create-panel">
+      <div>
+        <h2>HOST A NEW WORD</h2>
+        <p>SET THE WORD, SHARE THE CODE, WATCH THEM GUESS.</p>
+      </div>
+      <div class="create-action">
+        <button class="retro-btn create-btn" type="button" (click)="createGame()">
+          CREATE GAME
+        </button>
+        <span *ngIf="!user">LOGIN REQUIRED</span>
+      </div>
+    </section>
+  </main>
 </div>

@@ -43,8 +43,8 @@ export class GameService {
     });
   }
 
-  async getActiveGames() {
-    return await this.authService.client.collection('games').getList(1, 20, {
+  async getActiveGames(page: number = 1, perPage: number = 5) {
+    return await this.authService.client.collection('games').getList(page, perPage, {
       filter: 'status != "won" && status != "lost" && private = false',
       sort: '-created',
     });
