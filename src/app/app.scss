@@ -6,7 +6,9 @@
   border-bottom: 4px solid var(--retro-orange, #ff9900);
   background-color: var(--retro-black, #000);
   font-family: var(--pixel-font, 'Courier New');
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 1001;
 
   .logo {
     a {
@@ -91,9 +93,6 @@
   }
 
   @media (max-width: 768px) {
-    position: sticky;
-    top: 0;
-    z-index: 1001;
     padding: 1rem;
 
     .hamburger-btn {
